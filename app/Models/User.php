@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -31,5 +32,11 @@ class User extends Authenticatable
     public function articles()
     {
         return $this->hasMany(Article::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = 'http://localhost:8000/api/reset-password?token=' . $token;
+        $this->notify(new ResetPasswordNotification($url));
     }
 }
