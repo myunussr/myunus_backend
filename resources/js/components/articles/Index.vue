@@ -1,23 +1,22 @@
 <template>
     <div class="container mt-3">
         <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">Articles</div>
-                    <div class="card-body">
-                        <router-link :to="{ name: 'create' }" class="btn btn-md btn-success">Add Article</router-link>
-                        <div class="row">
-                            <div class="col-auto d-flex flex-wrap align-items-center">
-                                <div class="card m-3" style="width: 18rem;" v-for="(article, index) in articles" :key="article.id">
-                                    <div class="card-body" >
-                                        <h5 class="card-title">{{ article.title }}</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">{{ article.title }}</h6>
-                                        <p class="card-text">{{ article.excerpt }}</p>
-                                        <a href="#" class="card-link">Detail</a>
-                                        <a href="#" class="card-link">Remove</a>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="col-6">
+                <router-link :to="{ name: 'create' }" class="btn btn-md btn-light">Add Article</router-link>
+            </div>
+            <div class="col-auto">
+                <router-link :to="{ name: 'login' }" class="btn btn-md btn-light ml-5">Login</router-link>
+                <router-link :to="{ name: 'register' }" class="btn btn-md btn-light">Register</router-link>
+            </div>
+            <div class="row">
+                <div class="col-auto d-flex flex-wrap align-items-center">
+                    <div class="card m-2" style="width: 50rem;" v-for="(article, index) in articles" :key="article.id">
+                        <div class="card-body" >
+                            <h5 class="card-title">{{ article.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ article.user.name }}</h6>
+                            <p class="card-text">{{ article.excerpt }}</p>
+                            <router-link :to="{name: 'edit', params: { id: article.id }}"  class="btn btn-sm btn-primary">Edit</router-link>
+                            <button @click.prevent="ArticleDelete(article.id, index)" class="btn btn-sm btn-light">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -29,7 +28,8 @@
     export default {
         data() {
             return {
-                articles: []
+                articles: [],
+                token: localStorage.getItem('token')
             }
         },
         created() {
@@ -37,6 +37,22 @@
             this.axios.get(uri).then(response => {
                 this.articles = response.data.data;
             });
+        },
+        methods: {
+            ArticleDelete(id, index)
+            {
+                this.axios.delete(`http://localhost:8000/api/articles/${id}`)
+                    .then(response => {
+                        this.articles.splice(index, 1);
+                    }).catch(error => {
+                   console.log("ERRRR:: ",error.response.data);
+                });
+     
+        }
+        },
+         mounted(){
+            //    this.user = || false;
+            window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
         }
     }
 </script>
