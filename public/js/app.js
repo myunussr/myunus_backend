@@ -2286,10 +2286,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       articles: [],
+      user: [],
       token: localStorage.getItem('token'),
       authenticated: localStorage.getItem('loggedIn')
     };
@@ -2303,11 +2305,23 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    ArticleDelete: function ArticleDelete(id, index) {
+    logout: function logout() {
       var _this2 = this;
 
+      axios.get('http://localhost:8000/api/logout').then(function () {
+        //remove localStorage
+        localStorage.removeItem("loggedIn"); //redirect
+
+        return _this2.$router.push({
+          name: 'login'
+        });
+      });
+    },
+    ArticleDelete: function ArticleDelete(id, index) {
+      var _this3 = this;
+
       this.axios["delete"]("http://localhost:8000/api/articles/".concat(id)).then(function (response) {
-        _this2.articles.splice(index, 1);
+        _this3.articles.splice(index, 1);
       })["catch"](function (error) {
         console.log("ERRRR:: ", error.response.data);
       });
@@ -2398,7 +2412,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (this.user.email && this.user.password) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().get('http://localhost:8000/sanctum/csrf-cookie').then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().get('/sanctum/csrf-cookie').then(function (response) {
           //debug cookie
           console.log(response);
           axios__WEBPACK_IMPORTED_MODULE_0___default().post('http://localhost:8000/api/login', {
@@ -2406,8 +2420,7 @@ __webpack_require__.r(__webpack_exports__);
             password: _this.user.password
           }).then(function (res) {
             //debug user login
-            console.log(res);
-
+            // console.log(res)
             if (res.data.success) {
               console.log('success'); //set localStorage
 
@@ -2426,6 +2439,7 @@ __webpack_require__.r(__webpack_exports__);
               _this.loginFailed = true;
             }
           })["catch"](function (error) {
+            // this.validation = error.response.data.data;
             console.log(error);
           });
         });
@@ -2609,11 +2623,12 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+window.axios.defaults.withCredentials = true;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+  window.axios.defaults.headers.common['X-XSRF-TOKEN'] = token.content;
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
@@ -20966,20 +20981,16 @@ var render = function () {
       _vm._v(" "),
       _c("div", { staticClass: "col-auto" }, [
         _vm.authenticated
-          ? _c(
-              "div",
-              [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "btn btn-md btn-light",
-                    attrs: { to: { name: "logout" } },
-                  },
-                  [_vm._v("Logout")]
-                ),
-              ],
-              1
-            )
+          ? _c("div", [
+              _c(
+                "li",
+                {
+                  staticClass: "btn btn-md btn-light",
+                  on: { click: _vm.logout },
+                },
+                [_vm._v("Logout")]
+              ),
+            ])
           : _vm._e(),
       ]),
       _vm._v(" "),

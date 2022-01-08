@@ -11,8 +11,7 @@
             </div>
             <div class="col-auto">
                 <div v-if="authenticated">
-                    <router-link :to="{ name: 'logout' }" class="btn btn-md btn-light">Logout</router-link>
-                    <!-- <router-link :to="{ name: 'register' }" class="btn btn-md btn-light">Register</router-link> -->
+                    <li v-on:click="logout" class="btn btn-md btn-light">Logout</li>
                 </div>
             </div>
             <div class="row">
@@ -38,6 +37,7 @@
         data() {
             return {
                 articles: [],
+                user: [],
                 token: localStorage.getItem('token'),
                 authenticated: localStorage.getItem('loggedIn'),
             }
@@ -49,6 +49,13 @@
             });
         },
         methods: {
+             logout() {
+                axios.get('http://localhost:8000/api/logout')
+                .then(() => {
+                    localStorage.removeItem("loggedIn")    
+                    return this.$router.push({ name: 'login' })
+                })
+            },
             ArticleDelete(id, index)
             {
                 this.axios.delete(`http://localhost:8000/api/articles/${id}`)
@@ -61,7 +68,6 @@
         }
         },
          mounted(){
-            //    this.user = || false;
             window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
         }
     }

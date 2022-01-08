@@ -76,7 +76,7 @@
                             }).then(res => {
 
                                 //debug user login
-                                console.log(res)
+                                // console.log(res)
 
                                 if (res.data.success) {
 
@@ -102,7 +102,8 @@
                                 }
 
                             }).catch(error => {
-                                console.log(error)
+                                // this.validation = error.response.data.data;
+                                 console.log(error);
                             })
 
                         })
