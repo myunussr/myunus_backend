@@ -15,7 +15,9 @@ Vue.use(VueAxios, axios);
 
 import IndexComponent from './components/articles/Index.vue';
 import CreateComponent from './components/articles/Create.vue';
-// import EditComponent from './components/articles/Edit.vue';
+import RegisterComponent from './components/users/Register.vue';
+import LoginComponent from './components/users/Login.vue';
+import EditComponent from './components/articles/Edit.vue';
 
 const routes = [
     {
@@ -28,11 +30,21 @@ const routes = [
         path: '/create',
         component: CreateComponent
     },
-    // {
-    //     name: 'edit',
-    //     path: '/edit/:id',
-    //     component: EditComponent
-    // }
+    {
+        name: 'register',
+        path: '/register',
+        component: RegisterComponent
+    }, 
+    {
+        name: 'login',
+        path: '/login',
+        component: LoginComponent
+    },
+    {
+        name: 'edit',
+        path: '/edit/:id',
+        component: EditComponent
+    }
 ];
 
 const router = new VueRouter({

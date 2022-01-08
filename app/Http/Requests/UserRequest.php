@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required|string|max:50',
             'email' => 'required|email|unique:users',
-            'roles' => 'nullable|string|in:VISITOR,AUTHOR',
+            'roles' => 'string|in:VISITOR,AUTHOR',
         ];
     }
 }

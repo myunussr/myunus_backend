@@ -1,0 +1,84 @@
+<template>
+    <div class="container mt-3">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card card-default">
+                    <div class="card-header">Register</div>
+
+                    <div class="card-body">
+
+                        <form @submit.prevent="RegisterStore">
+                            <div class="form-group">
+                                <label for="name"> First Name</label>
+                                <input type="text" v-model="register.name" class="form-control" name="name" placeholder="First name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email"> Email Address</label>
+                                <input type="email" v-model="register.email" class="form-control" name="email" placeholder="Email Address">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password"> Password</label>
+                                <input type="password" v-model="register.password" class="form-control" name="password" placeholder="Password">
+                            </div>
+
+                            <!-- <div class="form-check">
+                                <input class="form-check-input" type="radio" name="roles"  v-model="register.roles" id="visitor" v-bind:value="'VISITOR'" checked>
+                                <label class="form-check-label" for="visitor">
+                                    Visitor
+                                </label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="roles" id="author" v-model="register.roles" v-bind:value="'AUTHOR'">
+                                <label class="form-check-label" for="author">
+                                    Author
+                                </label>
+                            </div> -->
+
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="visitor" name="roles" class="custom-control-input" v-model="register.roles"  v-bind:value="'VISITOR'" checked>
+                                <label class="custom-control-label" for="visitor">Visitor</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="author" name="roles" class="custom-control-input" v-model="register.roles" v-bind:value="'AUTHOR'">
+                                <label class="custom-control-label" for="author">Author</label>
+                            </div>
+
+                            <div class="form-group mt-4">
+                                <button type="submit" class="btn btn-md btn-primary">Save</button>
+                                <router-link :to="{ name: 'articles' }" class="btn btn-md btn-light">Back</router-link>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<script>
+    export default {
+        data() {
+            return {
+                register: {},
+                validation: []
+            }
+        },
+        methods: {
+            RegisterStore() {
+                let uri = 'http://localhost:8000/api/register';
+                this.axios.post(uri, this.register)
+                    .then((response) => {
+                        this.$router.push({
+                            name: 'articles'
+                        });
+                    }).catch(error => {
+                        console.log("ERRRR:: ",error.response.data);
+                    // this.validation = error.response.data.data;
+                });
+            }
+        }
+    }
+</script>
