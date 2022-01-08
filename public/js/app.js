@@ -2285,8 +2285,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2309,27 +2307,32 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('http://localhost:8000/api/logout').then(function () {
-        //remove localStorage
-        localStorage.removeItem("loggedIn"); //redirect
-
+        localStorage.removeItem("loggedIn");
         return _this2.$router.push({
           name: 'login'
         });
       });
     },
-    ArticleDelete: function ArticleDelete(id, index) {
+    getUser: function getUser() {
       var _this3 = this;
 
+      axios.get('http://127.0.0.1:8000/api/profile').then(function (response) {
+        _this3.user = response.data.id; //  console.log(this.userId);
+      });
+    },
+    ArticleDelete: function ArticleDelete(id, index) {
+      var _this4 = this;
+
       this.axios["delete"]("http://localhost:8000/api/articles/".concat(id)).then(function (response) {
-        _this3.articles.splice(index, 1);
+        _this4.articles.splice(index, 1);
       })["catch"](function (error) {
         console.log("ERRRR:: ", error.response.data);
       });
     }
   },
   mounted: function mounted() {
-    //    this.user = || false;
     window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat(this.token);
+    this.getUser();
   }
 });
 
@@ -2412,7 +2415,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (this.user.email && this.user.password) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().get('/sanctum/csrf-cookie').then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().get('http://localhost:8000/sanctum/csrf-cookie').then(function (response) {
           //debug cookie
           console.log(response);
           axios__WEBPACK_IMPORTED_MODULE_0___default().post('http://localhost:8000/api/login', {
@@ -2420,7 +2423,8 @@ __webpack_require__.r(__webpack_exports__);
             password: _this.user.password
           }).then(function (res) {
             //debug user login
-            // console.log(res)
+            console.log(res);
+
             if (res.data.success) {
               console.log('success'); //set localStorage
 
@@ -21020,7 +21024,7 @@ var render = function () {
                     _vm._v(_vm._s(article.excerpt)),
                   ]),
                   _vm._v(" "),
-                  _vm.authenticated
+                  article.user_id === _vm.user
                     ? _c(
                         "div",
                         [

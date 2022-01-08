@@ -21,7 +21,7 @@
                             <h5 class="card-title">{{ article.title }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{ article.user.name }}</h6>
                             <p class="card-text">{{ article.excerpt }}</p>
-                            <div v-if="authenticated">
+                            <div v-if="article.user_id === user">
                                 <router-link :to="{name: 'edit', params: { id: article.id }}"  class="btn btn-sm btn-primary">Edit</router-link>
                                 <button @click.prevent="ArticleDelete(article.id, index)" class="btn btn-sm btn-light">Remove</button>
                             </div>
@@ -56,6 +56,14 @@
                     return this.$router.push({ name: 'login' })
                 })
             },
+            getUser() {
+                axios.get('http://127.0.0.1:8000/api/profile')
+                .then((response) => {
+                     this.user = response.data.id;
+                    //  console.log(this.userId);
+                   
+                })
+            },
             ArticleDelete(id, index)
             {
                 this.axios.delete(`http://localhost:8000/api/articles/${id}`)
@@ -68,7 +76,8 @@
         }
         },
          mounted(){
-            window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+            window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+            this.getUser();
         }
     }
 </script>
