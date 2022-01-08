@@ -2114,6 +2114,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2155,9 +2156,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
 //
 //
 //
@@ -2496,27 +2494,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2534,7 +2511,7 @@ __webpack_require__.r(__webpack_exports__);
           name: 'articles'
         });
       })["catch"](function (error) {
-        console.log("ERRRR:: ", error.response.data); // this.validation = error.response.data.data;
+        _this.validation = error.response.data.data;
       });
     }
   }
@@ -20606,9 +20583,11 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Excerpt")]),
+                  _c("label", { attrs: { for: "excerpt" } }, [
+                    _vm._v("Excerpt"),
+                  ]),
                   _vm._v(" "),
-                  _c("input", {
+                  _c("textarea", {
                     directives: [
                       {
                         name: "model",
@@ -20618,7 +20597,7 @@ var render = function () {
                       },
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "Masukkan Excerpt" },
+                    attrs: { id: "excerpt", rows: "3" },
                     domProps: { value: _vm.article.excerpt },
                     on: {
                       input: function ($event) {
@@ -20632,9 +20611,9 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Body")]),
+                  _c("label", { attrs: { for: "body" } }, [_vm._v("Body")]),
                   _vm._v(" "),
-                  _c("input", {
+                  _c("textarea", {
                     directives: [
                       {
                         name: "model",
@@ -20644,7 +20623,7 @@ var render = function () {
                       },
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "Masukkan Body" },
+                    attrs: { id: "body", rows: "10" },
                     domProps: { value: _vm.article.body },
                     on: {
                       input: function ($event) {
@@ -20655,6 +20634,25 @@ var render = function () {
                       },
                     },
                   }),
+                  _vm._v(" "),
+                  _vm.validation.body
+                    ? _c("div", [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "alert alert-danger mt-1",
+                            attrs: { role: "alert" },
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(_vm.validation.body[0]) +
+                                "\n                                "
+                            ),
+                          ]
+                        ),
+                      ])
+                    : _vm._e(),
                 ]),
                 _vm._v(" "),
                 _c(
@@ -20776,9 +20774,11 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("excerpt")]),
+                  _c("label", { attrs: { for: "excerpt" } }, [
+                    _vm._v("Excerpt"),
+                  ]),
                   _vm._v(" "),
-                  _c("input", {
+                  _c("textarea", {
                     directives: [
                       {
                         name: "model",
@@ -20788,7 +20788,7 @@ var render = function () {
                       },
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "Masukkan excerpt" },
+                    attrs: { id: "excerpt", rows: "3" },
                     domProps: { value: _vm.article.excerpt },
                     on: {
                       input: function ($event) {
@@ -20821,9 +20821,9 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("body")]),
+                  _c("label", { attrs: { for: "body" } }, [_vm._v("Body")]),
                   _vm._v(" "),
-                  _c("input", {
+                  _c("textarea", {
                     directives: [
                       {
                         name: "model",
@@ -20833,7 +20833,7 @@ var render = function () {
                       },
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "Masukkan body" },
+                    attrs: { id: "body", rows: "10" },
                     domProps: { value: _vm.article.body },
                     on: {
                       input: function ($event) {
@@ -20865,7 +20865,30 @@ var render = function () {
                     : _vm._e(),
                 ]),
                 _vm._v(" "),
-                _vm._m(0),
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-md btn-primary",
+                        attrs: { type: "submit" },
+                      },
+                      [_vm._v("Save")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "btn btn-md btn-light",
+                        attrs: { to: { name: "articles" } },
+                      },
+                      [_vm._v("Back")]
+                    ),
+                  ],
+                  1
+                ),
               ]
             ),
           ]),
@@ -20874,26 +20897,7 @@ var render = function () {
     ]),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-md btn-success", attrs: { type: "submit" } },
-        [_vm._v("Update")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-md btn-danger", attrs: { type: "reset" } },
-        [_vm._v("Reset")]
-      ),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

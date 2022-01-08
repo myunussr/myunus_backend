@@ -6,18 +6,19 @@ use App\Models\Article;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
 
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::with('user')->get();
 
         return response()->json([
             "success" => true,
             "message" => "List Articles",
-            "data" => $articles
+            "data" => $articles,
         ]);
     }
 
@@ -27,6 +28,7 @@ class ArticleController extends Controller
         $data = $request->all();
 
         $data['slug'] = Str::slug($request->title);
+        $data['user_id'] = Auth::user()->id;
         $article = Article::create($data);
 
         return response()->json([
