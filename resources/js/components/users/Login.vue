@@ -31,6 +31,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary">Login</button>
                                 <router-link :to="{ name: 'register' }" class="btn btn-md btn-light">Sign up</router-link>
+                                <router-link :to="{ name: 'forgot' }" class="btn btn-md btn-link">Forgot password?</router-link>
                             </form>
                         </div>
                     </div>

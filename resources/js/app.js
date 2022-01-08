@@ -15,9 +15,11 @@ Vue.use(VueAxios, axios);
 
 import IndexComponent from './components/articles/Index.vue';
 import CreateComponent from './components/articles/Create.vue';
+import EditComponent from './components/articles/Edit.vue';
 import RegisterComponent from './components/users/Register.vue';
 import LoginComponent from './components/users/Login.vue';
-import EditComponent from './components/articles/Edit.vue';
+import ForgotPasswordComponent from './components/users/ForgotPassword.vue';
+import ResetPasswordComponent from './components/users/ResetPassword.vue';
 
 const routes = [
     {
@@ -44,6 +46,16 @@ const routes = [
         name: 'edit',
         path: '/edit/:id',
         component: EditComponent
+    },
+    {
+        name: 'forgot',
+        path: '/forgot-password',
+        component: ForgotPasswordComponent
+    },
+    {
+        name: 'reset',
+        path: '/reset-password',
+        component: ResetPasswordComponent
     }
 ];
 
