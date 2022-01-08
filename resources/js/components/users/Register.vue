@@ -51,7 +51,7 @@
                 this.axios.post(uri, this.register)
                     .then((response) => {
                         this.$router.push({
-                            name: 'articles'
+                            name: 'login'
                         });
                     }).catch(error => {
                     this.validation = error.response.data.data;

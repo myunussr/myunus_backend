@@ -2277,11 +2277,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       articles: [],
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('token'),
+      authenticated: localStorage.getItem('loggedIn')
     };
   },
   created: function created() {
@@ -2508,7 +2518,7 @@ __webpack_require__.r(__webpack_exports__);
       var uri = 'http://localhost:8000/api/register';
       this.axios.post(uri, this.register).then(function (response) {
         _this.$router.push({
-          name: 'articles'
+          name: 'login'
         });
       })["catch"](function (error) {
         _this.validation = error.response.data.data;
@@ -20922,46 +20932,56 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container mt-3" }, [
     _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        { staticClass: "col-6" },
-        [
-          _c(
-            "router-link",
-            {
-              staticClass: "btn btn-md btn-light",
-              attrs: { to: { name: "create" } },
-            },
-            [_vm._v("Add Article")]
-          ),
-        ],
-        1
-      ),
+      _c("div", { staticClass: "col-7" }, [
+        _vm.authenticated
+          ? _c(
+              "div",
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-md btn-light",
+                    attrs: { to: { name: "create" } },
+                  },
+                  [_vm._v("Add Article")]
+                ),
+              ],
+              1
+            )
+          : _c(
+              "div",
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-md btn-light",
+                    attrs: { to: { name: "login" } },
+                  },
+                  [_vm._v("Create Article")]
+                ),
+              ],
+              1
+            ),
+      ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-auto" },
-        [
-          _c(
-            "router-link",
-            {
-              staticClass: "btn btn-md btn-light ml-5",
-              attrs: { to: { name: "login" } },
-            },
-            [_vm._v("Login")]
-          ),
-          _vm._v(" "),
-          _c(
-            "router-link",
-            {
-              staticClass: "btn btn-md btn-light",
-              attrs: { to: { name: "register" } },
-            },
-            [_vm._v("Register")]
-          ),
-        ],
-        1
-      ),
+      _c("div", { staticClass: "col-auto" }, [
+        _vm.authenticated
+          ? _c(
+              "div",
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-md btn-light",
+                    attrs: { to: { name: "logout" } },
+                  },
+                  [_vm._v("Logout")]
+                ),
+              ],
+              1
+            )
+          : _vm._e(),
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c(
@@ -20976,49 +20996,55 @@ var render = function () {
                 staticStyle: { width: "50rem" },
               },
               [
-                _c(
-                  "div",
-                  { staticClass: "card-body" },
-                  [
-                    _c("h5", { staticClass: "card-title" }, [
-                      _vm._v(_vm._s(article.title)),
-                    ]),
-                    _vm._v(" "),
-                    _c("h6", { staticClass: "card-subtitle mb-2 text-muted" }, [
-                      _vm._v(_vm._s(article.user.name)),
-                    ]),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "card-text" }, [
-                      _vm._v(_vm._s(article.excerpt)),
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        attrs: {
-                          to: { name: "edit", params: { id: article.id } },
-                        },
-                      },
-                      [_vm._v("Edit")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-light",
-                        on: {
-                          click: function ($event) {
-                            $event.preventDefault()
-                            return _vm.ArticleDelete(article.id, index)
-                          },
-                        },
-                      },
-                      [_vm._v("Remove")]
-                    ),
-                  ],
-                  1
-                ),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("h5", { staticClass: "card-title" }, [
+                    _vm._v(_vm._s(article.title)),
+                  ]),
+                  _vm._v(" "),
+                  _c("h6", { staticClass: "card-subtitle mb-2 text-muted" }, [
+                    _vm._v(_vm._s(article.user.name)),
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "card-text" }, [
+                    _vm._v(_vm._s(article.excerpt)),
+                  ]),
+                  _vm._v(" "),
+                  _vm.authenticated
+                    ? _c(
+                        "div",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn-sm btn-primary",
+                              attrs: {
+                                to: {
+                                  name: "edit",
+                                  params: { id: article.id },
+                                },
+                              },
+                            },
+                            [_vm._v("Edit")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-light",
+                              on: {
+                                click: function ($event) {
+                                  $event.preventDefault()
+                                  return _vm.ArticleDelete(article.id, index)
+                                },
+                              },
+                            },
+                            [_vm._v("Remove")]
+                          ),
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                ]),
               ]
             )
           }),
@@ -21069,7 +21095,7 @@ var render = function () {
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-body" }, [
                 _vm._v(
-                  "\n                        LOGIN\n                        "
+                  "\n                        Login\n                        "
                 ),
                 _c("hr"),
                 _vm._v(" "),
@@ -21169,9 +21195,19 @@ var render = function () {
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit" },
                       },
-                      [_vm._v("LOGIN")]
+                      [_vm._v("Login")]
                     ),
-                  ]
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "btn btn-md btn-light",
+                        attrs: { to: { name: "register" } },
+                      },
+                      [_vm._v("Sign up")]
+                    ),
+                  ],
+                  1
                 ),
               ]),
             ]),

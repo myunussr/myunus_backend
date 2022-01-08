@@ -8,7 +8,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            LOGIN
+                            Login
                             <hr>
                             <form @submit.prevent="login">
 
@@ -29,8 +29,8 @@
                                         Masukkan Password
                                     </div>
                                 </div>
-
-                                <button type="submit" class="btn btn-primary">LOGIN</button>
+                                <button type="submit" class="btn btn-primary">Login</button>
+                                <router-link :to="{ name: 'register' }" class="btn btn-md btn-light">Sign up</router-link>
                             </form>
                         </div>
                     </div>

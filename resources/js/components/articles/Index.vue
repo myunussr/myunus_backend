@@ -1,12 +1,19 @@
 <template>
     <div class="container mt-3">
         <div class="row">
-            <div class="col-6">
-                <router-link :to="{ name: 'create' }" class="btn btn-md btn-light">Add Article</router-link>
+            <div class="col-7">
+                 <div v-if="authenticated">
+                    <router-link :to="{ name: 'create' }" class="btn btn-md btn-light">Add Article</router-link>
+                 </div>
+                 <div v-else>
+                    <router-link :to="{ name: 'login' }" class="btn btn-md btn-light">Create Article</router-link>
+                 </div>
             </div>
             <div class="col-auto">
-                <router-link :to="{ name: 'login' }" class="btn btn-md btn-light ml-5">Login</router-link>
-                <router-link :to="{ name: 'register' }" class="btn btn-md btn-light">Register</router-link>
+                <div v-if="authenticated">
+                    <router-link :to="{ name: 'logout' }" class="btn btn-md btn-light">Logout</router-link>
+                    <!-- <router-link :to="{ name: 'register' }" class="btn btn-md btn-light">Register</router-link> -->
+                </div>
             </div>
             <div class="row">
                 <div class="col-auto d-flex flex-wrap align-items-center">
@@ -15,8 +22,10 @@
                             <h5 class="card-title">{{ article.title }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{ article.user.name }}</h6>
                             <p class="card-text">{{ article.excerpt }}</p>
-                            <router-link :to="{name: 'edit', params: { id: article.id }}"  class="btn btn-sm btn-primary">Edit</router-link>
-                            <button @click.prevent="ArticleDelete(article.id, index)" class="btn btn-sm btn-light">Remove</button>
+                            <div v-if="authenticated">
+                                <router-link :to="{name: 'edit', params: { id: article.id }}"  class="btn btn-sm btn-primary">Edit</router-link>
+                                <button @click.prevent="ArticleDelete(article.id, index)" class="btn btn-sm btn-light">Remove</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -29,7 +38,8 @@
         data() {
             return {
                 articles: [],
-                token: localStorage.getItem('token')
+                token: localStorage.getItem('token'),
+                authenticated: localStorage.getItem('loggedIn'),
             }
         },
         created() {
