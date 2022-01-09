@@ -46,4 +46,12 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
         return ['message' => 'You have successfully logged out'];
     }
+
+    public function check(Request $request)
+    {
+        $user = User::where('email', $request->email)->where('roles', 'AUTHOR')->count() > 0 ? 'Author' : 'Visitor';
+        return response()->json([
+            'message' => $user,
+        ]);
+    }
 }

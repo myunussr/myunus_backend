@@ -20,6 +20,7 @@ use App\Http\Controllers\NewPasswordController;
 
 // Public Routes
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/register/check', [AuthController::class, 'check'])->name('register-check');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/forgot-password', [NewPasswordController::class, 'forgotPassword'])->name('forgotPassword');
