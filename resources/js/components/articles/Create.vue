@@ -1,15 +1,14 @@
 <template>
     <div class="container mt-3">
         <div class="row justify-content-center">
-            <div class="col-md-12">
+            <div class="col-md-12" data-aos="fade-in" data-aos-delay="100">
                 <div class="card card-default">
                     <div class="card-header">Add Article</div>
                     <div class="card-body">
                         <form @submit.prevent="ArticleStore">
                             <div class="form-group">
                                 <label>Title</label>
-                                <input type="text" class="form-control" v-model="article.title"
-                                       placeholder="Masukkan Title">
+                                <input type="text" class="form-control" v-model="article.title">
                             </div>
                             <div class="form-group">
                                 <label for="excerpt">Excerpt</label>
@@ -53,6 +52,12 @@
                         this.$router.push({
                             name: 'articles'
                         });
+                         Vue.toasted.show('Created article successfuly!', 
+                         {
+                            theme: "toasted-primary", 
+                            position: "top-center", 
+                            duration : 3000
+                       });
                     }).catch(error => {
                          console.log("ERRRR:: ",error.response.data);
                 });

@@ -1,23 +1,23 @@
 <template>
     <div class="container mt-3">
         <div class="row">
-            <div class="col-7">
+            <div class="col-9">
                  <div v-if="authenticated">
-                    <router-link :to="{ name: 'create' }" class="btn btn-md btn-light">Add Article</router-link>
+                    <router-link :to="{ name: 'create' }" class="btn btn-md btn-light" data-aos="fade-in" data-aos-delay="100">Add Article</router-link>
                  </div>
                  <div v-else>
-                    <router-link :to="{ name: 'login' }" class="btn btn-md btn-light">Create Article</router-link>
+                    <router-link :to="{ name: 'login' }" class="btn btn-md btn-light" >Create Article</router-link>
                  </div>
             </div>
             <div class="col-auto">
                 <div v-if="authenticated">
-                    <li v-on:click="logout" class="btn btn-md btn-light">Logout</li>
+                    <li v-on:click="logout" class="btn btn-md btn-light ml-5" data-aos="fade-in" data-aos-delay="100">Logout</li>
                 </div>
             </div>
             <div class="row">
-                <div class="col-auto d-flex flex-wrap align-items-center">
-                    <div class="card m-2" style="width: 50rem;" v-for="(article, index) in articles" :key="article.id">
-                        <div class="card-body" >
+                <div class="col-auto d-flex flex-wrap align-items-center mt-4" v-for="(article, index) in articles" :key="article.id">
+                    <div class="card h-100" style="width: 20rem;" data-aos="fade-up" :data-aos-delay="article.id * 50">
+                        <div class="card-body">
                             <h5 class="card-title">{{ article.title }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{ article.user.name }}</h6>
                             <p class="card-text">{{ article.excerpt }}</p>
@@ -52,6 +52,12 @@
              logout() {
                 axios.get('http://localhost:8000/api/logout')
                 .then(() => {
+                    Vue.toasted.show('Logout successfuly!', 
+                    {
+                        theme: "toasted-primary", 
+                        position: "top-center", 
+                        duration : 3000
+                    });
                     localStorage.removeItem("loggedIn")    
                     return this.$router.push({ name: 'login' })
                 })
@@ -60,8 +66,6 @@
                 axios.get('http://127.0.0.1:8000/api/profile')
                 .then((response) => {
                      this.user = response.data.id;
-                    //  console.log(this.userId);
-                   
                 })
             },
             ArticleDelete(id, index)
@@ -69,11 +73,16 @@
                 this.axios.delete(`http://localhost:8000/api/articles/${id}`)
                     .then(response => {
                         this.articles.splice(index, 1);
+                        Vue.toasted.show('Remove Article successfully!', 
+                        {
+                            theme: "toasted-primary", 
+                            position: "top-center", 
+                            duration : 5000
+                       });
                     }).catch(error => {
                    console.log("ERRRR:: ",error.response.data);
                 });
-     
-        }
+            }
         },
          mounted(){
             window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;

@@ -10,8 +10,16 @@ Vue.use(VueRouter);
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 
+import Toasted from 'vue-toasted';
+Vue.use(Toasted)
+
 import App from './App.vue';
 Vue.use(VueAxios, axios);
+
+import AOS from 'aos';
+import 'aos/dist/aos.css'; 
+AOS.init();
+
 
 import IndexComponent from './components/articles/Index.vue';
 import CreateComponent from './components/articles/Create.vue';

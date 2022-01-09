@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-3">
         <div class="row justify-content-center">
-            <div class="col-md-12">
+            <div class="col-md-12" data-aos="zoom-out" data-aos-delay="100">
                 <div class="card card-default">
                     <div class="card-header">Reset Password</div>
                     <div class="card-body">
@@ -37,6 +37,12 @@
                         this.$router.push({
                             name: 'login'
                         });
+                         Vue.toasted.show('Please check your email!', 
+                         {
+                            theme: "toasted-primary", 
+                            position: "top-center", 
+                            duration : 5000
+                       });
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });

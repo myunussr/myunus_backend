@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-3">
         <div class="row justify-content-center">
-            <div class="col-md-12">
+            <div class="col-md-12" data-aos="zoom-in" data-aos-delay="200">
                 <div class="card card-default">
                     <div class="card-header">Register</div>
                     <div class="card-body">
@@ -52,6 +52,12 @@
                     .then((response) => {
                         this.$router.push({
                             name: 'login'
+                        });
+                        Vue.toasted.show('Created account successfuly!', 
+                        {
+                            theme: "toasted-primary", 
+                            position: "top-center", 
+                            duration : 3000
                         });
                     }).catch(error => {
                     this.validation = error.response.data.data;

@@ -67,6 +67,12 @@
                 this.axios.put(uri, this.article)
                     .then((response) => {
                         this.$router.push({name: 'articles'});
+                         Vue.toasted.show('Updated article successfuly!', 
+                            {
+                                theme: "toasted-primary", 
+                                position: "top-center", 
+                                duration : 3000
+                        });
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });

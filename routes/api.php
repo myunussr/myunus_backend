@@ -39,5 +39,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/profile', function (Request $request) {
         return auth()->user();
-    });
+    })->name('profile');
 });
