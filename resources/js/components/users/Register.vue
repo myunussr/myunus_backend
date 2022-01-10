@@ -70,6 +70,7 @@
                         });
                     }).catch(error => {
                     this.validation = error.response.data.data;
+                    this.$alert(error.response.data.errors.email[0])
                 });
                 this.validation = []
                 if (!this.register.name) {

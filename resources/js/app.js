@@ -20,6 +20,9 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'; 
 AOS.init();
 
+import VueSimpleAlert from "vue-simple-alert";
+Vue.use(VueSimpleAlert);
+
 
 import IndexComponent from './components/articles/Index.vue';
 import CreateComponent from './components/articles/Create.vue';
