@@ -44,7 +44,7 @@ class ArticleController extends Controller
         return response()->json([
             "success" => true,
             "message" => "Article retrieved successfully.",
-            "data" => Article::find($id)
+            "data" => Article::findOrFail($id)
         ]);
     }
 
