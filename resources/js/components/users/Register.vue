@@ -9,14 +9,23 @@
                             <div class="form-group">
                                 <label for="name"> First Name</label>
                                 <input type="text" v-model="register.name" class="form-control" name="name" placeholder="First name">
+                                 <div v-if="validation.name" class="mt-2 alert alert-danger">
+                                        Masukkan Nama
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="email"> Email Address</label>
                                 <input type="email" v-model="register.email" class="form-control" name="email" placeholder="Email Address">
+                                  <div v-if="validation.email" class="mt-2 alert alert-danger">
+                                        Masukkan Email
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="password"> Password</label>
                                 <input type="password" v-model="register.password" class="form-control" name="password" placeholder="Password">
+                                  <div v-if="validation.password" class="mt-2 alert alert-danger">
+                                        Masukkan Password
+                                </div>
                             </div>
                             <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" id="visitor" name="roles" class="custom-control-input" v-model="register.roles"  v-bind:value="'VISITOR'" checked>
@@ -62,6 +71,16 @@
                     }).catch(error => {
                     this.validation = error.response.data.data;
                 });
+                this.validation = []
+                if (!this.register.name) {
+                    this.validation.name = true
+                }
+                if (!this.register.email) {
+                    this.validation.email = true
+                }
+                if (!this.register.password) {
+                    this.validation.password = true
+                }
             }
         }
     }
